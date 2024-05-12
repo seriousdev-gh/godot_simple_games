@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bys3o70iep8p6"]
+
+[ext_resource type="Texture2D" uid="uid://bjcjdusr08ly3" path="res://assets/Terrain (16x16).png" id="1_hyvlp"]
+
+[node name="Block" type="Sprite2D"]
+texture = ExtResource("1_hyvlp")
+region_enabled = true
+region_rect = Rect2(192, 80, 15.9646, 16)
