@@ -1,10 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://ok137eghwank"]
+[gd_scene load_steps=6 format=3 uid="uid://ok137eghwank"]
 
 [ext_resource type="Texture2D" uid="uid://bjcjdusr08ly3" path="res://assets/Terrain (16x16).png" id="1_1hb1v"]
 [ext_resource type="Script" path="res://scripts/game_tetris.gd" id="1_pss6a"]
 [ext_resource type="Texture2D" uid="uid://dvkmgv2tby1pi" path="res://assets/background/Blue.png" id="2_g03vg"]
-[ext_resource type="PackedScene" uid="uid://kpra7gmcmyvk" path="res://scenes/tetris_piece.tscn" id="4_jbkdd"]
-[ext_resource type="PackedScene" uid="uid://bys3o70iep8p6" path="res://scenes/block.tscn" id="5_fqcg6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_slitq"]
 texture = ExtResource("1_1hb1v")
@@ -148,41 +146,10 @@ texture = ExtResource("1_1hb1v")
 [sub_resource type="TileSet" id="TileSet_7gogd"]
 sources/0 = SubResource("TileSetAtlasSource_slitq")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wrfcj"]
-size = Vector2(18, 18)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6n4u4"]
-size = Vector2(16, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6wqjj"]
-size = Vector2(34, 18)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tj650"]
-size = Vector2(14, 13)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cor55"]
-size = Vector2(18, 50)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ml2w"]
-size = Vector2(11, 11)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_eiv0u"]
-size = Vector2(34, 18)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfv5t"]
-size = Vector2(18, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4hqfs"]
-size = Vector2(14, 14)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_q2sau"]
-size = Vector2(160, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_60dab"]
-size = Vector2(16, 326)
-
 [node name="Tetris" type="Node2D"]
 script = ExtResource("1_pss6a")
+block_texture = ExtResource("1_1hb1v")
+block_source_rect = Rect2(192, 80, 16, 16)
 metadata/_edit_lock_ = true
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -201,96 +168,15 @@ region_rect = Rect2(0, 0, 256, 512)
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
-[node name="pieces" type="Node" parent="."]
-
-[node name="single" parent="pieces" instance=ExtResource("4_jbkdd")]
-position = Vector2(-275, -264)
-
-[node name="pieces_single_Area2D#CollisionShape2D" type="CollisionShape2D" parent="pieces/single/bounds" index="0"]
-shape = SubResource("RectangleShape2D_wrfcj")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pieces/single/rotation_probe" index="0"]
-shape = SubResource("RectangleShape2D_6n4u4")
-
-[node name="two" parent="pieces" instance=ExtResource("4_jbkdd")]
-position = Vector2(-178, -253)
-
-[node name="LongPressCooldown" parent="pieces/two" index="2"]
-wait_time = 0.1
-
-[node name="pieces_two_Area2D#CollisionShape2D" type="CollisionShape2D" parent="pieces/two/bounds" index="0"]
-position = Vector2(8, 0)
-shape = SubResource("RectangleShape2D_6wqjj")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pieces/two/rotation_probe" index="0"]
-position = Vector2(0, 16.5)
-shape = SubResource("RectangleShape2D_tj650")
-
-[node name="Block2" parent="pieces/two" instance=ExtResource("5_fqcg6")]
-position = Vector2(16, 0)
-
-[node name="three" parent="pieces" instance=ExtResource("4_jbkdd")]
-position = Vector2(-275, -220)
-
-[node name="Block2" parent="pieces/three" instance=ExtResource("5_fqcg6")]
-position = Vector2(0, -16)
-
-[node name="Block3" parent="pieces/three" instance=ExtResource("5_fqcg6")]
-position = Vector2(0, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pieces/three/bounds" index="0"]
-shape = SubResource("RectangleShape2D_cor55")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pieces/three/rotation_probe" index="0"]
-position = Vector2(-15.5, 0)
-shape = SubResource("RectangleShape2D_6ml2w")
-
-[node name="three2" parent="pieces" instance=ExtResource("4_jbkdd")]
-position = Vector2(-109, -274)
-
-[node name="Block2" parent="pieces/three2" instance=ExtResource("5_fqcg6")]
-position = Vector2(16, 0)
-
-[node name="Block3" parent="pieces/three2" instance=ExtResource("5_fqcg6")]
-position = Vector2(0, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pieces/three2/bounds" index="0"]
-position = Vector2(8, 0)
-shape = SubResource("RectangleShape2D_eiv0u")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="pieces/three2/bounds" index="1"]
-position = Vector2(0, 17)
-shape = SubResource("RectangleShape2D_yfv5t")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pieces/three2/rotation_probe" index="0"]
-position = Vector2(-17, 0)
-shape = SubResource("RectangleShape2D_4hqfs")
-
-[node name="block_down" type="Area2D" parent="."]
-position = Vector2(0, 136)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="block_down"]
-shape = SubResource("RectangleShape2D_q2sau")
-
-[node name="block_left" type="Area2D" parent="."]
-position = Vector2(-72, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="block_left"]
-position = Vector2(0, -35)
-shape = SubResource("RectangleShape2D_60dab")
-
-[node name="block_right" type="Area2D" parent="."]
-position = Vector2(72, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="block_right"]
-position = Vector2(0, -35)
-shape = SubResource("RectangleShape2D_60dab")
-
 [node name="placed_blocks" type="Node" parent="."]
 
-[connection signal="ready" from="." to="." method="_on_ready"]
+[node name="FallTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
 
-[editable path="pieces/single"]
-[editable path="pieces/two"]
-[editable path="pieces/three"]
-[editable path="pieces/three2"]
+[node name="CooldownTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="timeout" from="FallTimer" to="." method="_on_fall_timer_timeout"]
