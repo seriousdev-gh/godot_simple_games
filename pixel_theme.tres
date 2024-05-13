@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dlygxgt8hfakm"]
+
+[ext_resource type="FontFile" uid="uid://bvlg0bt6ugohe" path="res://assets/fonts/SummerPixel22Regular-jE0W7.ttf" id="1_lck3s"]
+
+[resource]
+default_font = ExtResource("1_lck3s")
+default_font_size = 13
+/font_sizes/test = 13
+/fonts/sdasd = ExtResource("1_lck3s")

@@ -19,7 +19,9 @@ var next_piece
 var next_piece_location
 var next_piece_rotation
 
-var score = 0
+var score
+
+var is_game_over
 
 const pieces = [
 	[
@@ -87,6 +89,9 @@ func _ready():
 	
 	next_piece = randi_range(0, pieces.size() - 1)
 	next_piece_rotation = randi_range(0, 3)
+	score = 0
+	is_game_over = false
+	$GameOverLabel.visible = false
 	reset_piece()
 
 func reset_piece():
@@ -98,8 +103,12 @@ func reset_piece():
 	next_piece_rotation = randi_range(0, 3)
 	
 	$FallTimer.start(game_speed)
+	queue_redraw()
 	
 func _process(_delta):
+	if is_game_over:
+		return
+	
 	if Input.is_action_just_pressed("down"):
 		$FallTimer.wait_time = 0.1
 		$FallTimer.start(0.05)
@@ -170,6 +179,9 @@ func _on_fall_timer_timeout():
 	if can_move_down:
 		current_piece_location.y += 1
 	else:
+		if current_piece_location.y == 0:
+			game_over()
+			return
 		for loc in piece_grid_positions():
 			rows[loc.y][loc.x] = true
 		check_full_row()
@@ -209,7 +221,21 @@ func _draw():
 		var rect = Rect2(loc, Vector2(block_size, block_size))
 		draw_texture_rect_region(block_texture, rect, block_source_rect)
 
+func game_over():
+	is_game_over = true
+	$GameOverLabel.visible = true
+	$FallTimer.stop()
+	queue_redraw()
+
 func block_position(x, y):
 	return Vector2(
 		(x - cols_count/2) * block_size, 
 		(y - rows_count/2) * block_size)
+
+
+func _on_menu_button_pressed():
+	get_tree().change_scene_to_file("scenes/game_selection.tscn")
+
+
+func _on_restart_button_pressed():
+	_ready()
