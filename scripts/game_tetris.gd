@@ -22,6 +22,7 @@ var next_piece_rotation
 var score
 
 var is_game_over
+var game_speed_decrement = 0.025
 
 const pieces = [
 	[
@@ -190,14 +191,18 @@ func _on_fall_timer_timeout():
 	queue_redraw()
 
 func check_full_row():
+	var any_row_destroyed = false
 	for y in rows_count:
 		if rows[y].count(true) == cols_count:
+			any_row_destroyed = true
 			update_score()
 			for yy in range(y, 0, -1):
 				if yy == 0:
 					rows[0].fill(false)
 				else:
 					rows[yy] = rows[yy - 1].duplicate()
+	if any_row_destroyed:
+		game_speed -= game_speed_decrement
 
 func update_score():
 	score += score_increment
@@ -216,8 +221,9 @@ func _draw():
 		var rect = Rect2(block_position(loc.x, loc.y), Vector2(block_size, block_size))
 		draw_texture_rect_region(block_texture, rect, block_source_rect)
 		
-	for piece in pieces[next_piece]:
-		var loc = $NextPieceLocation.position + Vector2(piece) * block_size - Vector2(block_size*0.5, block_size)
+	for block in pieces[next_piece]:
+		var rotated_block = rotate_vector2i(block, next_piece_rotation)
+		var loc = $NextPieceLocation.position + Vector2(rotated_block) * block_size - Vector2(block_size*0.5, block_size)
 		var rect = Rect2(loc, Vector2(block_size, block_size))
 		draw_texture_rect_region(block_texture, rect, block_source_rect)
 
@@ -238,4 +244,4 @@ func _on_menu_button_pressed():
 
 
 func _on_restart_button_pressed():
-	_ready()
+	get_tree().reload_current_scene()
