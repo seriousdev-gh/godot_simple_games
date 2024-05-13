@@ -2,6 +2,9 @@ extends Node2D
 
 @export var block_texture: Texture2D
 @export var block_source_rect: Rect2
+@export var game_speed = 0.5
+@export var score_increment = 100
+
 const block_size = 16
 const rows_count = 16
 const cols_count = 8
@@ -11,6 +14,12 @@ var rows = []
 var current_piece
 var current_piece_location
 var current_piece_rotation
+
+var next_piece
+var next_piece_location
+var next_piece_rotation
+
+var score = 0
 
 const pieces = [
 	[
@@ -76,68 +85,63 @@ func _ready():
 		cols.fill(false)
 		rows[y]=cols
 	
+	next_piece = randi_range(0, pieces.size() - 1)
+	next_piece_rotation = randi_range(0, 3)
 	reset_piece()
 
 func reset_piece():
-	current_piece = randi_range(0, pieces.size() - 1)
+	current_piece = next_piece
 	current_piece_location = Vector2i(cols_count/2, 0)
-	current_piece_rotation = 0
-	$FallTimer.start(0.5)
+	current_piece_rotation = next_piece_rotation
+	
+	next_piece = randi_range(0, pieces.size() - 1)
+	next_piece_rotation = randi_range(0, 3)
+	
+	$FallTimer.start(game_speed)
 	
 func _process(_delta):
 	if Input.is_action_just_pressed("down"):
 		$FallTimer.wait_time = 0.1
 		$FallTimer.start(0.05)
-		
-	var can_move_left = true
-	var can_move_right = true
-	for loc in piece_grid_positions():
-		if is_collides(loc.x + 1, loc.y):
-			can_move_right = false
-		if is_collides(loc.x - 1, loc.y):
-			can_move_left = false
 
 	if Input.is_action_just_pressed("rotate"):
 		if current_piece == stick_piece:
-			try_to_rotate(0) or try_to_rotate(-1) or try_to_rotate(-2) or\
+			try_to_rotate(0) or try_to_rotate(-1) or try_to_rotate(-2) or \
 					try_to_rotate(1) or try_to_rotate(2)
 		else:
 			try_to_rotate(0) or try_to_rotate(-1) or try_to_rotate(1)
 		queue_redraw()
 
-	var direction = 0 
-	if Input.is_action_just_pressed("left") and can_move_left:
-		direction = -1
-		$CooldownTimer.start()
-	elif Input.is_action_just_pressed("right") and can_move_right:
-		direction = 1
-		$CooldownTimer.start()
-	elif $CooldownTimer.is_stopped():
-		if Input.is_action_pressed("left") and can_move_left:
-			direction = -1
-			$CooldownTimer.start()
-		elif Input.is_action_pressed("right") and can_move_right:
-			direction = 1
-			$CooldownTimer.start()
+	if Input.is_action_just_pressed("left") or \
+			($CooldownTimer.is_stopped() and Input.is_action_pressed("left")):
+		try_to_move_sideways(-1)
+	if Input.is_action_just_pressed("right") or \
+			($CooldownTimer.is_stopped() and Input.is_action_pressed("right")):
+		try_to_move_sideways(1)
+
+func try_to_move_sideways(amount):
+	for loc in piece_grid_positions():
+		if is_collides(loc.x + amount, loc.y):
+			return
 	
-	if direction != 0:
-		current_piece_location.x += direction
-		queue_redraw()
-		
+	$CooldownTimer.start()
+	current_piece_location.x += amount
+	queue_redraw()
+
+func try_to_rotate(amount):
+	for loc in piece_grid_positions(1):
+		if is_collides(loc.x + amount, loc.y):
+			return false
+			
+	current_piece_rotation += 1
+	if amount != 0:
+		current_piece_location.x += amount
+	return true
+
 func is_collides(x, y):
 	if y < 0:
 		return
 	return y >= rows_count or x < 0 or x >= cols_count or rows[y][x]
-
-func try_to_rotate(offset):
-	for loc in piece_grid_positions(1):
-		if is_collides(loc.x + offset, loc.y):
-			return false
-			
-	current_piece_rotation += 1
-	if offset != 0:
-		current_piece_location.x += offset
-	return true
 
 func rotate_vector2i(vec, amount):
 	match amount % 4:
@@ -149,8 +153,7 @@ func rotate_vector2i(vec, amount):
 			return Vector2i(-vec.x, -vec.y)
 		3: 
 			return Vector2i(vec.y, -vec.x)
-		
-		
+
 func piece_grid_positions(add_rotation = 0):
 	return pieces[current_piece].map(func(block): return block_grid_position(block, add_rotation))
 
@@ -177,12 +180,17 @@ func _on_fall_timer_timeout():
 func check_full_row():
 	for y in rows_count:
 		if rows[y].count(true) == cols_count:
+			update_score()
 			for yy in range(y, 0, -1):
 				if yy == 0:
 					rows[0].fill(false)
 				else:
 					rows[yy] = rows[yy - 1].duplicate()
-		
+
+func update_score():
+	score += score_increment
+	$ScoreLabel.text = "Score: " + str(score)
+
 func _draw():
 	for y in rows_count:
 		for x in cols_count:
@@ -194,6 +202,11 @@ func _draw():
 	
 	for loc in piece_grid_positions():
 		var rect = Rect2(block_position(loc.x, loc.y), Vector2(block_size, block_size))
+		draw_texture_rect_region(block_texture, rect, block_source_rect)
+		
+	for piece in pieces[next_piece]:
+		var loc = $NextPieceLocation.position + Vector2(piece) * block_size - Vector2(block_size*0.5, block_size)
+		var rect = Rect2(loc, Vector2(block_size, block_size))
 		draw_texture_rect_region(block_texture, rect, block_source_rect)
 
 func block_position(x, y):
