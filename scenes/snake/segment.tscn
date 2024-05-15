@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxpoy2277fyov"]
+[gd_scene load_steps=10 format=3 uid="uid://bxpoy2277fyov"]
 
 [ext_resource type="Texture2D" uid="uid://cr8rakanl4m66" path="res://assets/snake.png" id="1_7muw3"]
 [ext_resource type="Script" path="res://scripts/snake/segment.gd" id="2_jjlsv"]
@@ -7,9 +7,17 @@
 atlas = ExtResource("1_7muw3")
 region = Rect2(6, 1, 4, 4)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_rkkne"]
+atlas = ExtResource("1_7muw3")
+region = Rect2(1, 11, 4, 4)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_bob22"]
 atlas = ExtResource("1_7muw3")
 region = Rect2(1, 1, 4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1chwd"]
+atlas = ExtResource("1_7muw3")
+region = Rect2(1, 6, 4, 4)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gswuy"]
 atlas = ExtResource("1_7muw3")
@@ -27,10 +35,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_rkkne")
+}],
+"loop": true,
+"name": &"corner_fat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_bob22")
 }],
 "loop": true,
 "name": &"straight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1chwd")
+}],
+"loop": true,
+"name": &"straight_fat",
 "speed": 5.0
 }, {
 "frames": [{

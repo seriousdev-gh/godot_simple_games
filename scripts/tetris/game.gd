@@ -116,9 +116,11 @@ func _process(_delta):
 
 	if Input.is_action_just_pressed("rotate"):
 		if current_piece == stick_piece:
+			# TODO: fix warning
 			try_to_rotate(0) or try_to_rotate(-1) or try_to_rotate(-2) or \
 					try_to_rotate(1) or try_to_rotate(2)
 		else:
+			# TODO: fix warning
 			try_to_rotate(0) or try_to_rotate(-1) or try_to_rotate(1)
 		queue_redraw()
 

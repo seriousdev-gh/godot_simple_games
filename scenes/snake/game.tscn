@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dmwdah80guhrt"]
+[gd_scene load_steps=11 format=3 uid="uid://dmwdah80guhrt"]
 
 [ext_resource type="Script" path="res://scripts/snake/game.gd" id="1_47eyt"]
 [ext_resource type="PackedScene" uid="uid://xtxoqxqu3ycg" path="res://scenes/snake/food.tscn" id="2_g6khy"]
@@ -7,19 +7,13 @@
 [ext_resource type="Script" path="res://scripts/snake/head.gd" id="5_o0lut"]
 [ext_resource type="PackedScene" uid="uid://bxpoy2277fyov" path="res://scenes/snake/segment.tscn" id="6_kmbdm"]
 [ext_resource type="Theme" uid="uid://dlygxgt8hfakm" path="res://pixel_theme.tres" id="7_2roal"]
-[ext_resource type="FontFile" uid="uid://bvlg0bt6ugohe" path="res://assets/fonts/SummerPixel22Regular-jE0W7.ttf" id="8_dsrch"]
 [ext_resource type="PackedScene" uid="uid://c2qpcf4un5wgv" path="res://scenes/game_control.tscn" id="9_bqhpl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aawv3"]
 radius = 1.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_c3csw"]
-font = ExtResource("8_dsrch")
-font_size = 13
-font_color = Color(0, 0, 0, 1)
-shadow_size = 0
-shadow_color = Color(1, 1, 1, 0.278431)
-shadow_offset = Vector2(0, 1)
+[sub_resource type="CircleShape2D" id="CircleShape2D_1nujl"]
+radius = 1.0
 
 [node name="GameSnake" type="Node"]
 script = ExtResource("1_47eyt")
@@ -53,6 +47,8 @@ position = Vector2(0, -4)
 script = ExtResource("5_o0lut")
 snake_segment_scene = ExtResource("6_kmbdm")
 tail = NodePath("../Body")
+head_close_region = Rect2(11, 1, 4, 4)
+head_open_region = Rect2(11, 6, 4, 4)
 
 [node name="Timer" type="Timer" parent="SnakeHead"]
 wait_time = 0.1
@@ -63,6 +59,12 @@ autostart = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SnakeHead/Area2D"]
 shape = SubResource("CircleShape2D_aawv3")
 
+[node name="Area2D2" type="Area2D" parent="SnakeHead"]
+position = Vector2(0, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SnakeHead/Area2D2"]
+shape = SubResource("CircleShape2D_1nujl")
+
 [node name="Body" parent="." node_paths=PackedStringArray("next") instance=ExtResource("6_kmbdm")]
 next = NodePath("../Tail")
 
@@ -72,12 +74,12 @@ animation = &"tail"
 
 [node name="GameOverLabel" type="Label" parent="."]
 offset_left = -27.0
-offset_top = -4.0
+offset_top = -75.0
 offset_right = 27.0
-offset_bottom = 19.0
+offset_bottom = -52.0
 theme = ExtResource("7_2roal")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Game over"
-label_settings = SubResource("LabelSettings_c3csw")
 
 [node name="SnakeFood3" parent="." instance=ExtResource("2_g6khy")]
 position = Vector2(0, -14)
@@ -101,12 +103,14 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "0"
 
 [node name="Control" parent="." instance=ExtResource("9_bqhpl")]
-offset_left = -186.0
-offset_top = -102.0
-offset_right = -186.0
-offset_bottom = -102.0
+offset_left = -192.0
+offset_top = -108.0
+offset_right = -191.664
+offset_bottom = -109.024
 
 [connection signal="food_collected" from="SnakeHead" to="." method="_on_snake_head_food_collected"]
 [connection signal="self_collided" from="SnakeHead" to="." method="_on_snake_head_self_collided"]
 [connection signal="timeout" from="SnakeHead/Timer" to="SnakeHead" method="_on_timer_timeout"]
 [connection signal="area_entered" from="SnakeHead/Area2D" to="SnakeHead" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="SnakeHead/Area2D2" to="SnakeHead" method="_on_area_2d_2_area_entered"]
+[connection signal="area_exited" from="SnakeHead/Area2D2" to="SnakeHead" method="_on_area_2d_2_area_exited"]

@@ -5,6 +5,9 @@ signal self_collided
 
 @export var snake_segment_scene: PackedScene
 @export var tail: AnimatedSprite2D
+@export var head_close_region: Rect2
+@export var head_open_region: Rect2
+
 var current_direction = Vector2.UP
 var grow = false
 
@@ -74,25 +77,31 @@ func _on_timer_timeout() -> void:
 	current_direction = new_direction
 
 func update_segment_type(segment: AnimatedSprite2D, new_direction: Vector2) -> void:
+	var type = "straight"
 	if current_direction == DIRECTION_DOWN and new_direction == DIRECTION_RIGHT or \
 	   current_direction == DIRECTION_LEFT and new_direction == DIRECTION_UP:
 		segment.rotation_degrees = 0
-		segment.play("corner")
+		type = "corner"
 	elif current_direction == DIRECTION_UP and new_direction == DIRECTION_RIGHT or \
 		 current_direction == DIRECTION_LEFT and new_direction == DIRECTION_DOWN:
 		segment.rotation_degrees = 90
-		segment.play("corner")
+		type = "corner"
 	elif current_direction == DIRECTION_RIGHT and new_direction == DIRECTION_DOWN or \
 		 current_direction == DIRECTION_UP and new_direction == DIRECTION_LEFT:
 		segment.rotation_degrees = 180
-		segment.play("corner")
+		type = "corner"
 	elif current_direction == DIRECTION_RIGHT and new_direction == DIRECTION_UP or \
 		 current_direction == DIRECTION_DOWN and new_direction == DIRECTION_LEFT:
 		segment.rotation_degrees = 270
-		segment.play("corner")
+		type = "corner"
 	elif current_direction == new_direction:
 		segment.rotation_degrees = direction_to_degress(current_direction)
-		segment.play("straight")
+		type = "straight"
+		
+	if grow:
+		segment.play(type + "_fat")
+	else:
+		segment.play(type)
 			
 func direction_to_degress(dir) -> float:
 	var value = 0
@@ -123,3 +132,13 @@ func _on_area_2d_area_entered(area) -> void:
 		'snake_segment_area':
 			$Timer.stop()
 			self_collided.emit()
+
+
+func _on_area_2d_2_area_entered(area):
+	if area.name == 'snake_food':
+		region_rect = head_open_region
+
+
+func _on_area_2d_2_area_exited(area):
+	if area.name == 'snake_food':
+		region_rect = head_close_region
