@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://xtxoqxqu3ycg"]
+
+[ext_resource type="Texture2D" uid="uid://cr8rakanl4m66" path="res://assets/snake.png" id="1_ekui8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1r3wt"]
+radius = 1.0
+
+[node name="SnakeFood" type="Sprite2D"]
+texture = ExtResource("1_ekui8")
+region_enabled = true
+region_rect = Rect2(16, 1, 4, 4)
+
+[node name="snake_food" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="snake_food"]
+shape = SubResource("CircleShape2D_1r3wt")

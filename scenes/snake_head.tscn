@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bihvgleiqyjpt"]
+
+[ext_resource type="Texture2D" uid="uid://cr8rakanl4m66" path="res://assets/snake.png" id="1_b80qi"]
+
+[node name="SnakeHead" type="Sprite2D"]
+texture = ExtResource("1_b80qi")
+region_enabled = true
+region_rect = Rect2(11, 1, 4, 4)

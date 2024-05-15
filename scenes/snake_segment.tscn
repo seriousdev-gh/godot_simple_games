@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://bxpoy2277fyov"]
+
+[ext_resource type="Texture2D" uid="uid://cr8rakanl4m66" path="res://assets/snake.png" id="1_7muw3"]
+[ext_resource type="Script" path="res://scripts/snake_segment.gd" id="2_jjlsv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_we8bf"]
+atlas = ExtResource("1_7muw3")
+region = Rect2(6, 1, 4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bob22"]
+atlas = ExtResource("1_7muw3")
+region = Rect2(1, 1, 4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gswuy"]
+atlas = ExtResource("1_7muw3")
+region = Rect2(6, 6, 4, 4)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g8mil"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_we8bf")
+}],
+"loop": true,
+"name": &"corner",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bob22")
+}],
+"loop": true,
+"name": &"straight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gswuy")
+}],
+"loop": true,
+"name": &"tail",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pp02b"]
+radius = 1.0
+
+[node name="SnakeSegment" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_g8mil")
+animation = &"straight"
+script = ExtResource("2_jjlsv")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_pp02b")
