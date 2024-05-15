@@ -1,5 +1,8 @@
 extends Sprite2D
 
+signal food_collected
+signal self_collided
+
 @export var snake_segment_scene: PackedScene
 @export var tail: AnimatedSprite2D
 var current_direction = Vector2.UP
@@ -54,7 +57,8 @@ func _on_timer_timeout() -> void:
 		new_direction = input_buffer.pop_front()
 
 	update_segment_type(segment, new_direction)
-	update_head_rotation(new_direction)
+	
+	rotation_degrees = direction_to_degress(new_direction)
 
 	tail = segment
 	add_sibling(segment)
@@ -85,29 +89,28 @@ func update_segment_type(segment: AnimatedSprite2D, new_direction: Vector2) -> v
 		segment.rotation_degrees = 270
 		segment.play("corner")
 	elif current_direction == new_direction:
-		match current_direction:
-			DIRECTION_LEFT:
-				segment.rotation_degrees = 270
-			DIRECTION_RIGHT:
-				segment.rotation_degrees = 90
-			DIRECTION_UP:
-				segment.rotation_degrees = 0
-			DIRECTION_DOWN:
-				segment.rotation_degrees = 180
+		segment.rotation_degrees = direction_to_degress(current_direction)
 		segment.play("straight")
-
-func update_head_rotation(new_direction: Vector2) -> void:
-	match new_direction:
+			
+func direction_to_degress(dir) -> float:
+	var value = 0
+	match dir:
 		DIRECTION_LEFT:
-			rotation_degrees = 270
+			value = 270
 		DIRECTION_UP:
-			rotation_degrees = 0
+			value = 0
 		DIRECTION_RIGHT:
-			rotation_degrees = 90
+			value = 90
 		DIRECTION_DOWN:
-			rotation_degrees = 180
+			value = 180
+	return value
 
 func _on_area_2d_area_entered(area) -> void:
-	if area.name == 'snake_food':
-		area.get_parent().queue_free()
-		grow = true
+	match area.name:
+		'snake_food':
+			food_collected.emit()
+			area.get_parent().queue_free()
+			grow = true
+		'snake_segment_area':
+			$Timer.stop()
+			self_collided.emit()

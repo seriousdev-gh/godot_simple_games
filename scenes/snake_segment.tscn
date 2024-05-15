@@ -50,7 +50,7 @@ sprite_frames = SubResource("SpriteFrames_g8mil")
 animation = &"straight"
 script = ExtResource("2_jjlsv")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="snake_segment_area" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="snake_segment_area"]
 shape = SubResource("CircleShape2D_pp02b")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://ok137eghwank"]
+[gd_scene load_steps=10 format=3 uid="uid://ok137eghwank"]
 
 [ext_resource type="Texture2D" uid="uid://bjcjdusr08ly3" path="res://assets/Terrain (16x16).png" id="1_1hb1v"]
 [ext_resource type="Script" path="res://scripts/game_tetris.gd" id="1_pss6a"]
 [ext_resource type="Texture2D" uid="uid://dvkmgv2tby1pi" path="res://assets/background/Blue.png" id="2_g03vg"]
 [ext_resource type="Theme" uid="uid://dlygxgt8hfakm" path="res://pixel_theme.tres" id="4_ewmbd"]
 [ext_resource type="FontFile" uid="uid://bvlg0bt6ugohe" path="res://assets/fonts/SummerPixel22Regular-jE0W7.ttf" id="4_oek5f"]
+[ext_resource type="PackedScene" uid="uid://c2qpcf4un5wgv" path="res://scenes/game_control.tscn" id="6_0rggg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_slitq"]
 texture = ExtResource("1_1hb1v")
@@ -207,31 +208,11 @@ offset_bottom = 18.0
 text = "Game over"
 label_settings = SubResource("LabelSettings_eao2s")
 
-[node name="MenuButton" type="Button" parent="."]
-offset_left = -277.0
-offset_top = -145.0
-offset_right = -185.0
-offset_bottom = -111.0
-scale = Vector2(0.5, 0.5)
-focus_mode = 0
-theme = ExtResource("4_ewmbd")
-theme_override_font_sizes/font_size = 26
-action_mode = 0
-text = "Menu"
-
-[node name="RestartButton" type="Button" parent="."]
-offset_left = -277.0
-offset_top = -125.0
-offset_right = -185.0
-offset_bottom = -91.0
-scale = Vector2(0.5, 0.5)
-focus_mode = 0
-theme = ExtResource("4_ewmbd")
-theme_override_font_sizes/font_size = 26
-action_mode = 0
-text = "Restart"
+[node name="Control" parent="." instance=ExtResource("6_0rggg")]
+offset_left = -288.0
+offset_top = -162.0
+offset_right = -288.0
+offset_bottom = -162.0
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="timeout" from="FallTimer" to="." method="_on_fall_timer_timeout"]
-[connection signal="pressed" from="MenuButton" to="." method="_on_menu_button_pressed"]
-[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

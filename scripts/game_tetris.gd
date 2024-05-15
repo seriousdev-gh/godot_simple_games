@@ -238,10 +238,3 @@ func block_position(x, y):
 		(x - cols_count/2) * block_size, 
 		(y - rows_count/2) * block_size)
 
-
-func _on_menu_button_pressed():
-	get_tree().change_scene_to_file("scenes/game_selection.tscn")
-
-
-func _on_restart_button_pressed():
-	get_tree().reload_current_scene()
