@@ -69,6 +69,8 @@ func _on_timer_timeout() -> void:
 		tail.update_segment(self)
 
 	position += new_direction * STEP_SIZE
+	teleport_through_wall()
+	
 	current_direction = new_direction
 
 func update_segment_type(segment: AnimatedSprite2D, new_direction: Vector2) -> void:
@@ -104,6 +106,13 @@ func direction_to_degress(dir) -> float:
 		DIRECTION_DOWN:
 			value = 180
 	return value
+	
+func teleport_through_wall():
+	var bounds_size = Vector2(get_parent().width * STEP_SIZE * 0.5, get_parent().height * STEP_SIZE * 0.5)
+	if position.x >= bounds_size.x or position.x <= -bounds_size.x:
+		position.x = clampf(-position.x, -bounds_size.x + STEP_SIZE, bounds_size.x - STEP_SIZE)
+	if position.y >= bounds_size.y or position.y <= -bounds_size.y:
+		position.y = clampf(-position.y, -bounds_size.y + STEP_SIZE, bounds_size.y - STEP_SIZE)
 
 func _on_area_2d_area_entered(area) -> void:
 	match area.name:

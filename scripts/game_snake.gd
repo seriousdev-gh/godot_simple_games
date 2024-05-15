@@ -4,8 +4,8 @@ extends Node
 
 var current_score = 0
 var score_increment = 100
-var width = 64
-var height = 32
+var width = 24
+var height = 24
 var cell_size = 4
 
 func to_world(x, y) -> Vector2:
