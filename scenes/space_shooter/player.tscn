@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://n2q8ah2ddl06"]
+
+[ext_resource type="Script" path="res://scripts/space_shooter/player.gd" id="1_2gumi"]
+[ext_resource type="Texture2D" uid="uid://hvk1vskd1rt4" path="res://assets/playerShip1_orange.png" id="1_w3fkg"]
+[ext_resource type="PackedScene" uid="uid://dfri2x42g3k7a" path="res://scenes/space_shooter/gun.tscn" id="2_irpac"]
+[ext_resource type="PackedScene" uid="uid://2gqu65qf482u" path="res://scenes/space_shooter/laser_1.tscn" id="3_vw1lx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c4exq"]
+radius = 32.9848
+
+[node name="Player" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_2gumi")
+
+[node name="Gun" parent="." instance=ExtResource("2_irpac")]
+position = Vector2(-40, 0)
+projectile_scene = ExtResource("3_vw1lx")
+
+[node name="Gun2" parent="." instance=ExtResource("2_irpac")]
+position = Vector2(40, 0)
+projectile_scene = ExtResource("3_vw1lx")
+
+[node name="PlayerShip1Orange" type="Sprite2D" parent="."]
+texture = ExtResource("1_w3fkg")
+
+[node name="PlayerArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
+shape = SubResource("CircleShape2D_c4exq")
+
+[connection signal="area_entered" from="PlayerArea" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="PlayerArea" to="." method="_on_area_2d_area_exited"]

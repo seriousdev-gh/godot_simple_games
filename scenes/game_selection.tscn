@@ -12,22 +12,41 @@ grow_vertical = 2
 script = ExtResource("1_82t7m")
 
 [node name="LaunchTetris" type="Button" parent="."]
+texture_filter = 2
 layout_mode = 0
-offset_left = 157.0
-offset_top = 208.0
-offset_right = 353.0
-offset_bottom = 239.0
+offset_left = 158.0
+offset_top = 209.0
+offset_right = 660.0
+offset_bottom = 300.0
+scale = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 60
 action_mode = 0
 text = "Tetris"
 
 [node name="LaunchGame2" type="Button" parent="."]
+texture_filter = 2
 layout_mode = 0
 offset_left = 157.0
 offset_top = 266.0
-offset_right = 352.0
-offset_bottom = 297.0
+offset_right = 661.0
+offset_bottom = 357.0
+scale = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 60
 action_mode = 0
 text = "Snake"
 
+[node name="LaunchGame3" type="Button" parent="."]
+texture_filter = 2
+layout_mode = 0
+offset_left = 157.0
+offset_top = 324.0
+offset_right = 663.0
+offset_bottom = 415.0
+scale = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 60
+action_mode = 0
+text = "Space shooter"
+
 [connection signal="pressed" from="LaunchTetris" to="." method="_on_launch_tetris_pressed"]
 [connection signal="pressed" from="LaunchGame2" to="." method="_on_launch_snake_pressed"]
+[connection signal="pressed" from="LaunchGame3" to="." method="_on_launch_space_shooter_pressed"]

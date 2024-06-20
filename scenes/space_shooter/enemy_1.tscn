@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccgesfkgw36wd"]
+
+[ext_resource type="Script" path="res://scripts/space_shooter/enemy_1.gd" id="2_8k6oi"]
+[ext_resource type="Texture2D" uid="uid://bcm1m4px4m824" path="res://assets/parts/wingBlue_4.png" id="2_kub14"]
+[ext_resource type="Script" path="res://scripts/space_shooter/destroyed_part.gd" id="3_2r8gt"]
+[ext_resource type="Texture2D" uid="uid://vnfbjnw4ax6f" path="res://assets/parts/enemyBlack4Body.png" id="3_8ylo3"]
+[ext_resource type="PackedScene" uid="uid://b1jltndmr23o0" path="res://scenes/explosion.tscn" id="5_kkc2m"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("2_8k6oi")
+particles_scene = ExtResource("5_kkc2m")
+
+[node name="Enemy" type="Area2D" parent="."]
+position = Vector2(0, 5)
+scale = Vector2(0.5, 0.5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Enemy"]
+polygon = PackedVector2Array(42, -38, 42, 12, 10, 36, -10, 36, -42, 12, -42, -38)
+
+[node name="Parts" type="Node2D" parent="."]
+
+[node name="RightWing" type="Sprite2D" parent="Parts"]
+position = Vector2(11.5, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_kub14")
+script = ExtResource("3_2r8gt")
+
+[node name="LeftWing" type="Sprite2D" parent="Parts"]
+position = Vector2(-10.5, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_kub14")
+flip_h = true
+script = ExtResource("3_2r8gt")
+
+[node name="Body" type="Sprite2D" parent="Parts"]
+position = Vector2(0.5, 5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_8ylo3")
+script = ExtResource("3_2r8gt")
+
+[connection signal="before_kill" from="." to="Parts" method="_on_node_2d_before_kill"]
+[connection signal="before_kill" from="." to="Parts/RightWing" method="_on_node_2d_before_kill"]
+[connection signal="before_kill" from="." to="Parts/LeftWing" method="_on_node_2d_before_kill"]
+[connection signal="before_kill" from="." to="Parts/Body" method="_on_node_2d_before_kill"]
+[connection signal="area_entered" from="Enemy" to="." method="_on_enemy_area_entered"]

@@ -1,0 +1,98 @@
+[gd_scene load_steps=11 format=3 uid="uid://bjfcqwlc875vd"]
+
+[ext_resource type="PackedScene" uid="uid://n2q8ah2ddl06" path="res://scenes/space_shooter/player.tscn" id="1_2e4hq"]
+[ext_resource type="PackedScene" uid="uid://ccgesfkgw36wd" path="res://scenes/space_shooter/enemy_1.tscn" id="2_1be6a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gjyp"]
+size = Vector2(21, 678)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4p6ip"]
+size = Vector2(24, 684)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x03u4"]
+size = Vector2(1181, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cy65t"]
+size = Vector2(1177, 20)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_pg8gc"]
+normal = Vector2(0.999986, -0.00529093)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_th8r8"]
+normal = Vector2(-0.999957, 0.00930192)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_56evl"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qgsuh"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("1_2e4hq")]
+position = Vector2(0, 267)
+
+[node name="BoundaryLeft" type="Area2D" parent="."]
+position = Vector2(-579, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryLeft"]
+position = Vector2(-11.5, 4)
+shape = SubResource("RectangleShape2D_3gjyp")
+
+[node name="BoundaryRight" type="Area2D" parent="."]
+position = Vector2(576, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryRight"]
+position = Vector2(16, 3)
+shape = SubResource("RectangleShape2D_4p6ip")
+
+[node name="BoundaryUp" type="Area2D" parent="."]
+position = Vector2(0, -329)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryUp"]
+position = Vector2(-0.5, -2)
+shape = SubResource("RectangleShape2D_x03u4")
+
+[node name="BoundaryDown" type="Area2D" parent="."]
+position = Vector2(0, 326)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryDown"]
+position = Vector2(1, 10)
+shape = SubResource("RectangleShape2D_cy65t")
+
+[node name="KillzoneLeft" type="Area2D" parent="."]
+position = Vector2(-784, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillzoneLeft"]
+shape = SubResource("WorldBoundaryShape2D_pg8gc")
+
+[node name="KillzoneRight" type="Area2D" parent="."]
+position = Vector2(759, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillzoneRight"]
+shape = SubResource("WorldBoundaryShape2D_th8r8")
+
+[node name="KillzoneTop" type="Area2D" parent="."]
+position = Vector2(0, -544)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillzoneTop"]
+shape = SubResource("WorldBoundaryShape2D_56evl")
+
+[node name="KillzoneBottom" type="Area2D" parent="."]
+position = Vector2(0, 484)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillzoneBottom"]
+shape = SubResource("WorldBoundaryShape2D_qgsuh")
+
+[node name="Enemy1" parent="." instance=ExtResource("2_1be6a")]
+position = Vector2(-319, -147)
+
+[node name="Enemy2" parent="." instance=ExtResource("2_1be6a")]
+position = Vector2(-249, -147)
+
+[node name="Enemy3" parent="." instance=ExtResource("2_1be6a")]
+position = Vector2(-180, -148)
+
+[node name="Enemy4" parent="." instance=ExtResource("2_1be6a")]
+position = Vector2(-109, -146)
