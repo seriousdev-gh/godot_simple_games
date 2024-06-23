@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var speed = 400.0
+@export var speed = 500.0
 @export var projectile: PackedScene
 
 const DIRECTIONS = {
