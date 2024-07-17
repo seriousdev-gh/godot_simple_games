@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://n2q8ah2ddl06"]
 
-[ext_resource type="Script" path="res://scripts/space_shooter/player.gd" id="1_2gumi"]
+[ext_resource type="Script" path="res://games/space_shooter/player.gd" id="1_2gumi"]
 [ext_resource type="Texture2D" uid="uid://hvk1vskd1rt4" path="res://assets/playerShip1_orange.png" id="1_w3fkg"]
-[ext_resource type="PackedScene" uid="uid://dfri2x42g3k7a" path="res://scenes/space_shooter/gun.tscn" id="2_irpac"]
-[ext_resource type="PackedScene" uid="uid://2gqu65qf482u" path="res://scenes/space_shooter/laser_1.tscn" id="3_vw1lx"]
+[ext_resource type="PackedScene" uid="uid://dfri2x42g3k7a" path="res://games/space_shooter/gun.tscn" id="2_irpac"]
+[ext_resource type="PackedScene" uid="uid://2gqu65qf482u" path="res://games/space_shooter/laser_1.tscn" id="3_vw1lx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_c4exq"]
 radius = 32.9848

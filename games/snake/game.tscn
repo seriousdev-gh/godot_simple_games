@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://dmwdah80guhrt"]
 
-[ext_resource type="Script" path="res://scripts/snake/game.gd" id="1_47eyt"]
-[ext_resource type="PackedScene" uid="uid://xtxoqxqu3ycg" path="res://scenes/snake/food.tscn" id="2_g6khy"]
+[ext_resource type="Script" path="res://games/snake/game.gd" id="1_47eyt"]
+[ext_resource type="PackedScene" uid="uid://xtxoqxqu3ycg" path="res://games/snake/food.tscn" id="2_g6khy"]
 [ext_resource type="Texture2D" uid="uid://cr8rakanl4m66" path="res://assets/snake.png" id="3_djmin"]
-[ext_resource type="PackedScene" uid="uid://bihvgleiqyjpt" path="res://scenes/snake/head.tscn" id="4_tohb1"]
-[ext_resource type="Script" path="res://scripts/snake/head.gd" id="5_o0lut"]
-[ext_resource type="PackedScene" uid="uid://bxpoy2277fyov" path="res://scenes/snake/segment.tscn" id="6_kmbdm"]
+[ext_resource type="PackedScene" uid="uid://bihvgleiqyjpt" path="res://games/snake/head.tscn" id="4_tohb1"]
+[ext_resource type="Script" path="res://games/snake/head.gd" id="5_o0lut"]
+[ext_resource type="PackedScene" uid="uid://bxpoy2277fyov" path="res://games/snake/segment.tscn" id="6_kmbdm"]
 [ext_resource type="Theme" uid="uid://dlygxgt8hfakm" path="res://pixel_theme.tres" id="7_2roal"]
 [ext_resource type="PackedScene" uid="uid://c2qpcf4un5wgv" path="res://scenes/game_control.tscn" id="9_bqhpl"]
 

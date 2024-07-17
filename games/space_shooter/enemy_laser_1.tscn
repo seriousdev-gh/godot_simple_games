@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxw41m6b8658i"]
 
 [ext_resource type="Texture2D" uid="uid://dlraff1sr66ad" path="res://assets/laserRed16.png" id="1_etjbt"]
-[ext_resource type="Script" path="res://scripts/space_shooter/enemy_laser_1.gd" id="2_qpafn"]
+[ext_resource type="Script" path="res://games/space_shooter/enemy_laser_1.gd" id="2_qpafn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g2fpe"]
 radius = 8.0
