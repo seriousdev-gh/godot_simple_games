@@ -3,36 +3,9 @@ extends Node2D
 @export var enemy_scenes : Array[PackedScene]
 var levels : Array
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	seed(123456)
-	
-	#setup()
 	setup_level1()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-func setup():
-	var tween = get_tree().create_tween()
-	# level 1
-	tween.tween_callback(
-		func():
-			print("TWEEN: spawn")
-			var enemy = enemy_scenes[0].instantiate()
-			enemy.position = line_random_point($Spawners/Top)
-			add_child(enemy)
-	).set_delay(0.8)
-	tween.set_loops(5)
-	tween.tween_interval(1)
-	tween.stop()
-	await tween.finished
-	tween.tween_callback(
-		func():
-			print("WEEN: after spawn")
-	)
 	
 func setup_level1():
 	print("wave 1")
