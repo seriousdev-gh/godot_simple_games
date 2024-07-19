@@ -1,35 +1,36 @@
-extends Node2D
+extends CharacterBody2D
+
+signal game_over
 
 @export var speed = 500.0
 @export var projectile: PackedScene
+@export var health = 3
 
-const DIRECTIONS = {
-	'up': Vector2.UP, 
-	'down': Vector2.DOWN, 
-	'left': Vector2.LEFT, 
-	'right': Vector2.RIGHT
-}
-
-var direction_hit = {}
-
-func _process(delta_time):
-	moving(delta_time)
+func get_input():
+	velocity = Vector2.ZERO
+	if Input.is_action_pressed('right'):
+		velocity.x = 1
+	if Input.is_action_pressed('left'):
+		velocity.x = -1
+	if Input.is_action_pressed('up'):
+		velocity.y = -1
+	if Input.is_action_pressed('down'):
+		velocity.y = 1
 	
-func moving(delta_time):
-	var move_direction = Vector2.ZERO
-	for dir in DIRECTIONS:
-		if Input.is_action_pressed(dir) and not direction_hit.get(dir, false):
-			move_direction += DIRECTIONS[dir]
-
-	position += move_direction.normalized() * speed * delta_time
-
-func _on_area_2d_area_entered(area):
-	for dir in DIRECTIONS:
-		if area.name == 'Boundary' + dir.capitalize():
-			direction_hit[dir] = true
+	velocity = velocity.normalized() * speed
 
 
-func _on_area_2d_area_exited(area):
-	for dir in DIRECTIONS:
-		if area.name == 'Boundary' + dir.capitalize():
-			direction_hit[dir] = false
+func _physics_process(_delta):
+	get_input()
+	move_and_slide()
+	
+func damage():
+	health -= 1
+	print("Took damage. Current health: " + str(health))
+	if health == 0:
+		game_over.emit()
+		queue_free()
+
+func _on_player_area_area_entered(area):
+	if area.name == 'EnemyProjectile' || area.name == 'Enemy':
+		damage()

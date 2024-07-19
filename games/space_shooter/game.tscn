@@ -1,9 +1,28 @@
-[gd_scene load_steps=16 format=3 uid="uid://bjfcqwlc875vd"]
+[gd_scene load_steps=14 format=3 uid="uid://bjfcqwlc875vd"]
 
 [ext_resource type="PackedScene" uid="uid://n2q8ah2ddl06" path="res://games/space_shooter/player.tscn" id="1_2e4hq"]
 [ext_resource type="Script" path="res://games/space_shooter/game.gd" id="1_rbw86"]
 [ext_resource type="PackedScene" uid="uid://ccgesfkgw36wd" path="res://games/space_shooter/enemy_1.tscn" id="2_1be6a"]
 [ext_resource type="Texture2D" uid="uid://fv34cx08eivf" path="res://assets/background/darkPurple.png" id="3_34xym"]
+[ext_resource type="Texture2D" uid="uid://c1a6bmwaojung" path="res://assets/playerLife1_red.png" id="5_uv1ag"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ttr0"]
+size = Vector2(1759, 1083)
+
+[sub_resource type="Animation" id="Animation_ivt6l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Polygon2D:texture_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_5uc25"]
 resource_name = "new_animation"
@@ -22,21 +41,6 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, -256)]
 }
 
-[sub_resource type="Animation" id="Animation_ivt6l"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Polygon2D:texture_offset")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1rsic"]
 _data = {
 "RESET": SubResource("Animation_ivt6l"),
@@ -44,31 +48,28 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gjyp"]
-size = Vector2(21, 678)
+size = Vector2(72, 678)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4p6ip"]
-size = Vector2(24, 684)
+size = Vector2(81, 684)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x03u4"]
-size = Vector2(1181, 16)
+size = Vector2(1181, 53)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cy65t"]
-size = Vector2(1177, 20)
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_pg8gc"]
-normal = Vector2(0.999986, -0.00529093)
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_th8r8"]
-normal = Vector2(-0.999957, 0.00930192)
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_56evl"]
-normal = Vector2(0, 1)
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qgsuh"]
+size = Vector2(1177, 59)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_rbw86")
 enemy_scenes = Array[PackedScene]([ExtResource("2_1be6a")])
+
+[node name="FreeOnExitZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FreeOnExitZone"]
+position = Vector2(-10.5, 5.5)
+shape = SubResource("RectangleShape2D_6ttr0")
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -88,61 +89,49 @@ autoplay = "new_animation"
 [node name="Player" parent="." instance=ExtResource("1_2e4hq")]
 position = Vector2(0, 267)
 
-[node name="BoundaryLeft" type="Area2D" parent="."]
+[node name="BoundaryLeft" type="StaticBody2D" parent="."]
 position = Vector2(-579, 0)
+collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryLeft"]
-position = Vector2(-11.5, 4)
+position = Vector2(-37, 4)
 shape = SubResource("RectangleShape2D_3gjyp")
 
-[node name="BoundaryRight" type="Area2D" parent="."]
+[node name="BoundaryRight" type="StaticBody2D" parent="."]
 position = Vector2(576, 2)
+collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryRight"]
-position = Vector2(16, 3)
+position = Vector2(44.5, 3)
 shape = SubResource("RectangleShape2D_4p6ip")
 
-[node name="BoundaryUp" type="Area2D" parent="."]
+[node name="BoundaryUp" type="StaticBody2D" parent="."]
 position = Vector2(0, -329)
+collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryUp"]
-position = Vector2(-0.5, -2)
+position = Vector2(0, -25.5)
 shape = SubResource("RectangleShape2D_x03u4")
 
-[node name="BoundaryDown" type="Area2D" parent="."]
+[node name="BoundaryDown" type="StaticBody2D" parent="."]
 position = Vector2(0, 326)
+collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BoundaryDown"]
-position = Vector2(1, 10)
+position = Vector2(1, 29.5)
 shape = SubResource("RectangleShape2D_cy65t")
-
-[node name="KillzoneLeft" type="Area2D" parent="."]
-position = Vector2(-784, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KillzoneLeft"]
-shape = SubResource("WorldBoundaryShape2D_pg8gc")
-
-[node name="KillzoneRight" type="Area2D" parent="."]
-position = Vector2(759, 2)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KillzoneRight"]
-shape = SubResource("WorldBoundaryShape2D_th8r8")
-
-[node name="KillzoneTop" type="Area2D" parent="."]
-position = Vector2(0, -626)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KillzoneTop"]
-position = Vector2(0, -58)
-shape = SubResource("WorldBoundaryShape2D_56evl")
-
-[node name="KillzoneBottom" type="Area2D" parent="."]
-position = Vector2(0, 627)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KillzoneBottom"]
-shape = SubResource("WorldBoundaryShape2D_qgsuh")
 
 [node name="Spawners" type="Node" parent="."]
 
 [node name="Top" type="Line2D" parent="Spawners"]
-position = Vector2(0, -585)
+position = Vector2(0, -444)
 points = PackedVector2Array(-484, 9, 499, 10)
+
+[node name="Health" type="Node2D" parent="."]
+
+[node name="PlayerLife1Red" type="Sprite2D" parent="Health"]
+position = Vector2(-543, -300)
+texture = ExtResource("5_uv1ag")
+
+[connection signal="area_exited" from="FreeOnExitZone" to="." method="_on_free_on_exit_zone_area_exited"]
+[connection signal="game_over" from="Player" to="." method="_on_player_game_over"]

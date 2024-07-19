@@ -14,8 +14,12 @@ func _process(delta):
 
 func logic():
 	await get_tree().create_timer(1).timeout
+	if get_tree().get_current_scene().is_game_over:
+		return
+	
 	var projectile = projectile_scene.instantiate()
 	var player = get_tree().get_current_scene().get_node("Player")
+	
 	projectile.position = position
 	projectile.look_at(player.position)
 	get_tree().get_current_scene().add_child(projectile)
@@ -34,6 +38,5 @@ func kill():
 
 
 func _on_enemy_area_entered(area):
-	print("Entered: " + area.name)
-	if area.name == 'PlayerProjectile':
+	if area.name == 'PlayerProjectile' || area.name == 'PlayerArea':
 		kill()

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bxw41m6b8658i" path="res://games/space_shooter/enemy_laser_1.tscn" id="3_hc0k5"]
 [ext_resource type="PackedScene" uid="uid://b1jltndmr23o0" path="res://scenes/explosion.tscn" id="5_kkc2m"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Enemy1" type="Node2D"]
 script = ExtResource("2_8k6oi")
 particles_scene = ExtResource("5_kkc2m")
 projectile_scene = ExtResource("3_hc0k5")
@@ -15,6 +15,8 @@ projectile_scene = ExtResource("3_hc0k5")
 [node name="Enemy" type="Area2D" parent="."]
 position = Vector2(0, 5)
 scale = Vector2(0.5, 0.5)
+collision_layer = 4
+collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Enemy"]
 polygon = PackedVector2Array(42, -38, 42, 12, 10, 36, -10, 36, -42, 12, -42, -38)

@@ -5,6 +5,5 @@ extends Sprite2D
 func _process(delta):
 	position.y -= speed * delta
 
-func _on_area_2d_area_entered(area):
-	if area.name != "PlayerArea":
-		queue_free()
+func _on_area_2d_area_entered(_area):
+	queue_free()
